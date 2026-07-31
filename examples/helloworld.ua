@@ -1,3 +1,7 @@
 UCLAP ~ "../main.ua"
 
-UCLAP~legacy~PrintUsage
+UCLAP~core~PrintHelp
+
+
+
+UCLAP~core~MakeNewApp "hello world" box""

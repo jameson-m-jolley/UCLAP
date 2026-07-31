@@ -8,8 +8,11 @@
 └─╴
 
 ┌─╴core
-  ~command {name options subcommands}
-  AddNewCommand  = {}
+  ~app {name commands}
+  ~command {name options subcommands description}
+  ~option {name description}
+  MakeNewApp = (app)
+  AddNewCommand  = ()
 
   ┌╶╶Lexer
     # we need regex patterns but i would not like to depend on any libs 
@@ -18,12 +21,13 @@
     # we need to also match any subcommands that are given to us
   └╶╶
   ┌╶╶Parser
-  
+
   └╶╶
 
   PrintHelp = (
     &p tools~ApplyColor tools~Green "Usage:"
-
+    &p tools~ApplyColor tools~Green "Commands:"
+    &p tools~ApplyColor tools~Green "Options:"
   )
 └─╴
 
