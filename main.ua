@@ -9,22 +9,44 @@
 
 ┌─╴core
   ~app {name commands}
-  ~command {name options subcommands description}
-  ~option {name description}
-  MakeNewApp = (app)
-  AddNewCommand  = ()
+  # makes a new app structure for the app
+  # takes 2 args 
+  # 1. name of the app
+  # 2. commands from the new commands 
+  NewApp ← |2 (app)
 
-  ┌╶╶Lexer
+  ~command {name arguments subcommands description}
+  # makes a new command with a sub command and a discrition
+  # takes 4 args
+  # 1. name of the command
+  # 2. arguments 
+  # 3. subcommands
+  # 4. description
+  NewCommand ← |4 (command)
+
+  ~argument {name description}
+  # make new option if positionalargs is empty then the option is treated as a flag
+  # 
+  NewArgument ← |2 (argument)
+
+  AddNewCommand ← ()
+
+  ┌─╴Lexer
     # we need regex patterns but i would not like to depend on any libs 
-    Short ← "-[a-zA-Z]"
-    Long  ← "--[a-zA-Z]*"
+    Short            ← "-[a-zA-Z]"
+    Long             ← "--[a-zA-Z]*"
+    KeyVal           ← "--[a-zA-Z]*=[a-zA-Z]*"
+    JoinArgs         ← (°□/(□⊂ ˜⊂@ ∩°□) ↘1&args)
+    GetSplitPatterns ← (⊂⊂ ⊃(♭ regex Short|♭ regex Long|♭ regex KeyVal) JoinArgs)
+    GitSplitMask = (≡(+1) /+ ≡( bac ⦷ JoinArgs  un□)  GetSplitPatterns) 
+
     # we need to also match any subcommands that are given to us
-  └╶╶
-  ┌╶╶Parser
+    TokenizeArgs ← ≡(□ +@0 unbox) ⊜□  GitSplitMask -@0 JoinArgs 
+  └─╴
+  ┌─╴Parserss
+  └─╴
 
-  └╶╶
-
-  PrintHelp = (
+  PrintHelp ← (
     &p tools~ApplyColor tools~Green "Usage:"
     &p tools~ApplyColor tools~Green "Commands:"
     &p tools~ApplyColor tools~Green "Options:"
