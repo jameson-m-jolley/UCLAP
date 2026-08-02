@@ -7,53 +7,37 @@
   ApplyColor ← (˜⊂ Reset ⊂)
 └─╴
 
-┌─╴core
-  ~app {name commands}
-  # makes a new app structure for the app
-  # takes 2 args 
-  # 1. name of the app
-  # 2. commands from the new commands 
-  NewApp ← |2 (app)
-
-  ~command {name arguments subcommands description}
-  # makes a new command with a sub command and a discrition
-  # takes 4 args
-  # 1. name of the command
-  # 2. arguments 
-  # 3. subcommands
-  # 4. description
-  NewCommand ← |4 (command)
-
+┌─╴core ~ app argument command option
+  ~app {name description options arguments commands}
+  ~command {name description options arguments commands}
+  ~option {name description}
   ~argument {name description}
-  # make new option if positionalargs is empty then the option is treated as a flag
-  # 
-  NewArgument ← |2 (argument)
-
-  AddNewCommand ← ()
 
   ┌─╴Lexer ~ Lex
     # we need regex patterns but i would not like to depend on any libs 
     Flag ← "(--[a-zA-Z]*=[a-zA-Z]*|-[a-zA-Z]|--[a-zA-Z]*)"
 
     # --------flag types--------
+
     # token names use screaming snake case
-    TokenNames    ← {"KEY_VALUE" "LONG" "SHORT" "ARGUMENTS"}
+    # this is indented to be used to tokenize then tag them 
+    # in a tuple with the token name and the value of the token
+    # example: ("--help" "LONG"), ("-v" "SHORT"), ("--key=value" "KEY_VALUE") ("this is a token" "ARGUMENTS")
+    # sense the tokens are positional we can use the order of the tokens to determine what they are
+    TokenNames ← {"KEY_VALUE" "LONG" "SHORT" "ARGUMENTS"}
+    # regex patterns for the tokens we want to match
     TokenPatterns ← {"--[a-zA-Z]*=[a-zA-Z]*" "--[a-zA-Z]*" "-[a-zA-Z]" "[a-zA-Z0-9 ]*"}
-
-    TokenMAP         ← map TokenNames TokenPatterns
-    TokenizerPattern ← ⊂ ⊂"(" ↘1°□/(□⊂ ∩°□) ≡(□⊂@| °□ ˜get°□ TokenMAP)TokenNames ")"
-
-    PrintTokenPatterns ← ◌?TokenMAP
+    # mapping the token names to the regex patterns for the tokens we want to match
+    TokenMAP ← map TokenNames TokenPatterns
+    # the regex pattern for the tokenizer to use to split the args into tokens
+    TokenizerPattern ← ⊂⊂"("↘1°□/(□⊂∩°□)≡(□⊂@| °□˜get°□TokenMAP)TokenNames")"
     # joins the args into a string for the custom parser to split into the correct tokens
     JoinTokenized    ← (°□ /(□⊂ ˜⊂@ ∩°□))
-    GetSplitPatterns ←  deshap take1 ⍉ regex TokenizerPattern
-    GitSplitMask     ← (≡(+1) /+ ≡(˜⦷ (JoinTokenized ↘1&args) °□) GetSplitPatterns)
-
-    # we need to also match any subcommands that are given to us
-    Tokenize ← (≡(□ +@0 °□) ⊜□ GitSplitMask -@0)
+    Tokenize ← ♭ ↙1 ⍉ regex TokenizerPattern
+    MatchToken =   ≥1⊡0△ regex get dip TokenMAP 
     Lex      ← ()
   └─╴
-  ┌─╴Parserss
+  ┌─╴Parsers
   └─╴
 
   PrintHelp ← (
