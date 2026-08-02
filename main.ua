@@ -38,21 +38,20 @@
     # --------flag types--------
     # token names use screaming snake case
     TokenNames    ← {"KEY_VALUE" "LONG" "SHORT" "ARGUMENTS"}
-    TokenPatterns ← {"--[a-zA-Z]*=[a-zA-Z]*" "--[a-zA-Z]*" "-[a-zA-Z]" "([a-zA-Z0-9 ]*)"}
+    TokenPatterns ← {"--[a-zA-Z]*=[a-zA-Z]*" "--[a-zA-Z]*" "-[a-zA-Z]" "[a-zA-Z0-9 ]*"}
 
     TokenMAP         ← map TokenNames TokenPatterns
-    TokenizerPattern ← join ⊂"(" drop1unbox/(□⊂ ∩°□) ≡(□⊂@| °□ ˜get°□ TokenMAP)TokenNames ")"
+    TokenizerPattern ← ⊂ ⊂"(" ↘1°□/(□⊂ ∩°□) ≡(□⊂@| °□ ˜get°□ TokenMAP)TokenNames ")"
 
     PrintTokenPatterns ← ◌?TokenMAP
     # joins the args into a string for the custom parser to split into the correct tokens
-    JoinArgs         ← (°□/(□⊂ ˜⊂@ ∩°□) ↘1&args)
-    GetSplitPatterns ← ((♭ regex TokenizerPattern) JoinArgs)
-    PrintSplitPatterns = ◌? GetSplitPatterns
-    GitSplitMask     ← (≡(+1) /+ ≡(˜⦷ JoinArgs °□) GetSplitPatterns)
+    JoinTokenized    ← (°□ /(□⊂ ˜⊂@ ∩°□))
+    GetSplitPatterns ←  deshap take1 ⍉ regex TokenizerPattern
+    GitSplitMask     ← (≡(+1) /+ ≡(˜⦷ (JoinTokenized ↘1&args) °□) GetSplitPatterns)
 
     # we need to also match any subcommands that are given to us
-    TokenizeArgs ← (≡(□ +@0 °□) ⊜□ GitSplitMask -@0 JoinArgs)
-    Lex          ← ()
+    Tokenize ← (≡(□ +@0 °□) ⊜□ GitSplitMask -@0)
+    Lex      ← ()
   └─╴
   ┌─╴Parserss
   └─╴

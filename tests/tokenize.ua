@@ -1,4 +1,7 @@
 UCLAP ~ "../main.ua"
 
-
-UCLAP~core~Lexer~TokenizeArgs
+┌─╴test
+  ˙⍤ /== UCLAP~core~Lexer~TokenizerPattern "(--[a-zA-Z]*=[a-zA-Z]*|--[a-zA-Z]*|-[a-zA-Z]|[a-zA-Z0-9 ]*)"
+  ˙⍤ /== "--help this is a token -v X" UCLAP~core~Lexer~JoinTokenized {"--help" "this is a token" "-v" "X"}
+  ? UCLAP~core~Lexer~GetSplitPatterns "--help this is a token -v X"
+└─╴
