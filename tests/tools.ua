@@ -1,0 +1,4 @@
+UCLAP ~ "../main.ua"
+
+┌─╴test
+└─╴
