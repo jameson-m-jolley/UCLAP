@@ -20,4 +20,7 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
         UCLAP~core~lexer~GetTokenTypeMask "69"
         UCLAP~core~lexer~GetTokenTypeMask "\"string --help=help -s --long\""
   ] UCLAP~core~lexer~GetTokenTypeMatrix TokenizedTester
+  &p "TEST: MapTokens token"
+  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~core~lexer~MapTokens TokenizedTester
+
 └─╴

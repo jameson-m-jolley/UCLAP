@@ -1,8 +1,9 @@
 UCLAP ~ "../main.ua"
 
 ┌─╴test
-  ˙⍤ /== UCLAP~core~lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z]+|-?[0-9]+(\\.[0-9]+)?)"
+  ˙⍤ /== UCLAP~core~lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z.\\/~*_]+|-?[0-9]+(\\.[0-9]+)?)"
   ˙⍤ /== "--help this is a token -v X" UCLAP~core~lexer~JoinTokenized {"--help" "this is a token" "-v" "X"}
+  ˙⍤ ≍ "" UCLAP~core~lexer~JoinTokenized {""}
   &p "TEST: old test new Tokenize behavior"
   ˙⍤ /== {"--help" "this" "is" "a" "token" "-v" "X"} UCLAP~core~lexer~Tokenize "--help this is a token -v X"
   &p "TEST: new test new Tokenize behavior"
@@ -21,6 +22,10 @@ UCLAP ~ "../main.ua"
   ˙⍤ = 0 UCLAP~core~lexer~MatchToken "SHORT" "--bb"
   &p "TEST: ARGUMENTS token"
   ˙⍤ = 1 UCLAP~core~lexer~MatchToken "LITERAL" "token"
+  ˙⍤ = 1 UCLAP~core~lexer~MatchToken "LITERAL" "."
+  ˙⍤ = 1 UCLAP~core~lexer~MatchToken "LITERAL" ".."
+  ˙⍤ = 1 UCLAP~core~lexer~MatchToken "LITERAL" "./"
+  ˙⍤ = 1 UCLAP~core~lexer~MatchToken "LITERAL" "~/*"
   ˙⍤ = 0 UCLAP~core~lexer~MatchToken "LITERAL" "5"
 
   &p "TEST: NUMBER token"
