@@ -21,11 +21,6 @@
 └─╴
 
 ┌─╴core
-
-  ~Options {ID OptionType For ForID}
-  ~Arguments {ID ArgumentType For ForID}
-  ~Commands {ID For ForID}
-
   ┌─╴lexer ~ Lex
     # token names use screaming snake case eg `KEY_VALUE`
     # the token patterns are regexes that match the token names
@@ -157,6 +152,17 @@
     Lex ← (MapTokens Tokenize JoinTokenized ↘1&args)
   └─╴
   ┌─╴parsers
+    # llkWindows takes
+    # 1. the map of the lexed tokens
+    # 
+    # returns a parwise windows of tokens for parsing mapped to toking type 
+    # 
+    # >provence:
+    # >>documentation generated with `human`
+    # 
+    # >>code generated with `humans`
+    llkWindows ← (map ∩(⧈□2) °map)
+
   └─╴
 
   # PrintHelp takes no arguments and prints the CLAP-style help scaffold:
