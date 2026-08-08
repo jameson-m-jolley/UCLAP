@@ -12,6 +12,11 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
   ˙⍤ ≍ "NUMBER" UCLAP~core~lexer~GetTokenType "-1"
   ˙⍤ ≍ "NUMBER" UCLAP~core~lexer~GetTokenType "69"
   ˙⍤ ≍ "STRING" UCLAP~core~lexer~GetTokenType "\"string --help=help -s --long\""
+
+  &p "TEST: MapTokens token"
+  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~core~lexer~MapTokens TokenizedTester
+
+  &p "TEST: GetTokenTypeMask token"
   ˙⍤ ≍ [UCLAP~core~lexer~GetTokenTypeMask "--help=help"
         UCLAP~core~lexer~GetTokenTypeMask "-s"
         UCLAP~core~lexer~GetTokenTypeMask "--long"
@@ -20,7 +25,4 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
         UCLAP~core~lexer~GetTokenTypeMask "69"
         UCLAP~core~lexer~GetTokenTypeMask "\"string --help=help -s --long\""
   ] UCLAP~core~lexer~GetTokenTypeMatrix TokenizedTester
-  &p "TEST: MapTokens token"
-  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~core~lexer~MapTokens TokenizedTester
-
 └─╴
