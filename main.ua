@@ -39,6 +39,12 @@
     # >>documentation generated with `human`
     # 
     # >>code generated with `human`
+    # TODO: KEY_VALUE only allows letter values, so `--port=8080` and
+    # `--name=Jameson-Smith` tokenize wrong (`--port=8080` -> ["--port" "8080"],
+    # `--name=Jameson-Smith` -> ["--name=Jameson" "-S" "mith"]). LITERAL
+    # rejects `-`, mangling dashed filenames like `my-file.txt`
+    # -> ["my" "-f" "ile.txt"]. Decide dash handling and widen the patterns.
+    # (noted by opencode/big-pickle)
     TokenPatterns ← {"--[a-zA-Z]+=[a-zA-Z]+" "--[a-zA-Z]+" "-[a-zA-Z]" "\"([^\"\\\\]|\\\\.)*\"" "[a-zA-Z.\\/~*_]+" "-?[0-9]+(\\.[0-9]+)?"}
     # mapping the token names in `TokenNames` to the regex patterns in `TokenPatterns`
     # >provence:
@@ -78,6 +84,10 @@
     # >>documentation generated with opencode (model: laguna-s-2.1-free)
     # 
     # >>code generated with human
+    # TODO: `⬚""regex` fills non-matching regions with "" and they are
+    # dropped, so unmatched characters are silently lost (`bob@` -> ["bob"]).
+    # The tokenizer should error on un-tokenizable input instead of dropping it.
+    # (noted by opencode/big-pickle)
     Tokenize ← |1 ♭↙1⍉ ⬚""regex TokenizerPattern
 
     # the match token function takes 
@@ -106,7 +116,7 @@
     # >>code generated with `human`
     GetTokenTypeMask ← |1 (≡(MatchToken°□⊙°□)TokenNames□)
 
-    # GetTokenTypeMask takes 
+    # GetTokenTypeMatrix takes 
     # 
     # 1. `list of token string` 
     # 
@@ -161,6 +171,10 @@
     # >>documentation generated with `human`
     # 
     # >>code generated with `humans`
+    # TODO: name is camelCase (`llkWindows`) vs. the repo's PascalCase
+    # convention for public functions (code-review-agent.md), and it is not
+    # covered by any `˙⍤` assertion (tests/parsing.ua only `?`-prints it).
+    # (noted by opencode/big-pickle)
     llkWindows ← (map ∩(⧈□2) °map)
 
   └─╴
@@ -229,6 +243,10 @@
   # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
   # 
   # >>code generated with `human`
+  # TODO: only works as `GetArgValue "key" GetArgs` (key, then map), which the
+  # doc/README never show; on a missing key it raises "Key not found in map"
+  # and `⋕` errors on non-numeric values, contrary to "empty on no match".
+  # (noted by opencode/big-pickle)
   GetArgValue ← (⋕°□get□)
 
   # PrintUsage takes no arguments and prints the legacy mode usage banner:

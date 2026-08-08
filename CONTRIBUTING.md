@@ -134,6 +134,9 @@ someone worked hard to make work.
    under `examples/`. Add a test that exercises your change.
 4. **Run the tests**:
 
+   > **TODO:** `uiua run` doesn't run the `┌─╴test` blocks (no output) —
+   > use `uiua test tests/tokenize.ua`. (noted by opencode/big-pickle)
+
    ```bash
    uiua run tests/tokenize.ua
    ```
@@ -148,6 +151,9 @@ first, see it fail, then write the code that makes it pass.
 
 The existing `tests/tokenize.ua` shows the pattern — assertions are written
 with `˙⍤` and print whether they pass:
+
+> **TODO:** `uiua run` doesn't run the tests (no output) — use
+> `uiua test tests/tokenize.ua`. (noted by opencode/big-pickle)
 
 ```bash
 uiua run tests/tokenize.ua
@@ -198,7 +204,7 @@ Separate formatting-only or whitespace changes from behavior changes.
 Before submitting a PR, confirm:
 
 - [ ] It addresses a single concern
-- [ ] Tests pass (`uiua run tests/tokenize.ua`)
+- [ ] Tests pass (`uiua run tests/tokenize.ua`) — TODO: use `uiua test tests/tokenize.ua`; `uiua run` doesn't run the test blocks (noted by opencode/big-pickle)
 - [ ] New behavior is covered by a test
 - [ ] The change follows existing conventions
 - [ ] You can fully explain and defend every part of the change

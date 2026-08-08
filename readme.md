@@ -80,6 +80,10 @@ UCLAP ~ "../main.ua"
 
 ## Defining an App
 
+> **TODO:** the `~app` / `~command` / `~option` / `~argument` DSL below is not
+> implemented yet — none of these bindings exist in main.ua. Also "stakes"
+> below should read "takes". (noted by opencode/big-pickle)
+
 Define your app with `UCLAP~app`. An app contains commands, options, arguments,
 and a description that UCLAP uses to build the help output.
 
@@ -131,6 +135,8 @@ Functions exposed by `legacy`:
 - `UCLAP~legacy~Getvalues` — values of the `key=value` args
 - `UCLAP~legacy~GetArgs` — map of keys → values
 - `UCLAP~legacy~GetArgValue` — look up a value by key (parsed as a number)
+  — TODO: call it as `GetArgValue "key" GetArgs`; it errors (does not return
+  empty) on a missing key / non-numeric value (noted by opencode/big-pickle)
 - `UCLAP~legacy~PrintUsage` — print the usage message above
 
 ## Core (Lexer / Parser)
@@ -183,6 +189,11 @@ UCLAP~core~lexer~MatchToken "NUMBER" "-5"                # 1
 
 ## Running the tests
 
+> **TODO:** the command below is wrong — `uiua run` does not execute the
+> `┌─╴test` blocks (it prints nothing). Use `uiua test tests/tokenize.ua`
+> instead, and note that `˙⍤` passes are silent (only the summary prints).
+> (noted by opencode/big-pickle)
+
 The tokenizer tests are in `tests/tokenize.ua`:
 
 ```bash
@@ -192,6 +203,10 @@ uiua run tests/tokenize.ua
 Each `˙⍤` assertion prints whether the check passed.
 
 ## Example
+
+> **TODO:** this is a stub, not a runnable app — `examples/helloworld.ua` only
+> imports the module and defines nothing. Also `uiua run` won't run it; use
+> `uiua test`. (noted by opencode/big-pickle)
 
 A runnable example app lives in `examples/helloworld.ua`:
 

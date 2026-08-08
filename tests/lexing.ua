@@ -1,7 +1,7 @@
 UCLAP ~ "../main.ua"
 
 TokenizedTester ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\""}
-MaskedTokens    ← {}
+MaskedTokens    ← {}  # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
 MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING"}
 ┌─╴test
   &p "TEST: GetTokenType token"
