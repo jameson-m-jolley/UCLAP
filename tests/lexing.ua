@@ -1,28 +1,28 @@
 UCLAP ~ "../main.ua"
 
 TokenizedTester ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\""}
-MaskedTokens    ← {}  # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
+MaskedTokens    ← {} # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
 MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING"}
 ┌─╴test
   &p "TEST: GetTokenType token"
-  ˙⍤ ≍ "KEY_VALUE" UCLAP~core~lexer~GetTokenType "--help=help"
-  ˙⍤ ≍ "SHORT" UCLAP~core~lexer~GetTokenType "-s"
-  ˙⍤ ≍ "LONG" UCLAP~core~lexer~GetTokenType "--long"
-  ˙⍤ ≍ "LITERAL" UCLAP~core~lexer~GetTokenType "literal"
-  ˙⍤ ≍ "NUMBER" UCLAP~core~lexer~GetTokenType "-1"
-  ˙⍤ ≍ "NUMBER" UCLAP~core~lexer~GetTokenType "69"
-  ˙⍤ ≍ "STRING" UCLAP~core~lexer~GetTokenType "\"string --help=help -s --long\""
+  ˙⍤ ≍ "KEY_VALUE" UCLAP~Core~Lexer~GetTokenType "--help=help"
+  ˙⍤ ≍ "SHORT" UCLAP~Core~Lexer~GetTokenType "-s"
+  ˙⍤ ≍ "LONG" UCLAP~Core~Lexer~GetTokenType "--long"
+  ˙⍤ ≍ "LITERAL" UCLAP~Core~Lexer~GetTokenType "literal"
+  ˙⍤ ≍ "NUMBER" UCLAP~Core~Lexer~GetTokenType "-1"
+  ˙⍤ ≍ "NUMBER" UCLAP~Core~Lexer~GetTokenType "69"
+  ˙⍤ ≍ "STRING" UCLAP~Core~Lexer~GetTokenType "\"string --help=help -s --long\""
 
   &p "TEST: MapTokens token"
-  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~core~lexer~MapTokens TokenizedTester
+  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~Core~Lexer~MapTokens TokenizedTester
 
   &p "TEST: GetTokenTypeMask token"
-  ˙⍤ ≍ [UCLAP~core~lexer~GetTokenTypeMask "--help=help"
-        UCLAP~core~lexer~GetTokenTypeMask "-s"
-        UCLAP~core~lexer~GetTokenTypeMask "--long"
-        UCLAP~core~lexer~GetTokenTypeMask "literal"
-        UCLAP~core~lexer~GetTokenTypeMask "-1"
-        UCLAP~core~lexer~GetTokenTypeMask "69"
-        UCLAP~core~lexer~GetTokenTypeMask "\"string --help=help -s --long\""
-  ] UCLAP~core~lexer~GetTokenTypeMatrix TokenizedTester
+  ˙⍤ ≍ [UCLAP~Core~Lexer~GetTokenTypeMask "--help=help"
+        UCLAP~Core~Lexer~GetTokenTypeMask "-s"
+        UCLAP~Core~Lexer~GetTokenTypeMask "--long"
+        UCLAP~Core~Lexer~GetTokenTypeMask "literal"
+        UCLAP~Core~Lexer~GetTokenTypeMask "-1"
+        UCLAP~Core~Lexer~GetTokenTypeMask "69"
+        UCLAP~Core~Lexer~GetTokenTypeMask "\"string --help=help -s --long\""
+  ] UCLAP~Core~Lexer~GetTokenTypeMatrix TokenizedTester
 └─╴

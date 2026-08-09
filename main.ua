@@ -20,8 +20,8 @@
 
 └─╴
 
-┌─╴core
-  ┌─╴lexer ~ Lex
+┌─╴Core ~ App Arguments Lexer Options Parser Subcommands
+  ┌─╴Lexer ~ JoinTokenized Lex
     # token names use screaming snake case eg `KEY_VALUE`
     # the token patterns are regexes that match the token names
     # the patterns are positionally ordered so the some tokens take precedence 
@@ -161,7 +161,45 @@
     # >>code generated with human
     Lex ← (MapTokens Tokenize JoinTokenized ↘1&args)
   └─╴
-  ┌─╴parsers
+  ┌─╴Parser ~ App Arguments Options Subcommands
+    ┌─╴Arguments
+      ~ {name description default}
+      PrintUsage ← (&p JoinTokenized {})
+    └─╴
+    ┌─╴Options
+      ~ {name description arguments}
+      PrintUsage ← (&p JoinTokenized {})
+    └─╴
+    ┌─╴Subcommands
+      ~ {name description arguments options subcommands}
+      PrintUsage ← (&p JoinTokenized {})
+    └─╴
+    ┌─╴App
+      ~ {name description arguments options subcommands}
+      PrintUsage ← (
+        ⟜∘
+        ⟜∘
+        ⊃
+        &p JoinTokenized {
+          tools~ApplyColor tools~Blue ⊃ (join dip @: name ) description
+        }
+
+        &p JoinTokenized {
+          tools~ApplyColor
+          tools~Blue
+          "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
+          name
+          ⊙(⊂₃ @[ "ARGS" @])
+          ⊙(⊂₃ @[ "OPTIONS" @])
+          ⊙(⊂₃ @[ "SUBCOMMANDS" @])
+        }
+        ⍥(&p" ")3
+      )
+      # TODO switch on empty args, options, subcommands 
+      
+      
+
+    └─╴
     # llkWindows takes
     # 1. the map of the lexed tokens
     # 
@@ -175,7 +213,7 @@
     # convention for public functions (code-review-agent.md), and it is not
     # covered by any `˙⍤` assertion (tests/parsing.ua only `?`-prints it).
     # (noted by opencode/big-pickle)
-    llkWindows ← (map ∩(⧈□2) °map)
+    llkWindows ← (map ∩(⧈□2) °map)?
 
   └─╴
 
@@ -186,10 +224,10 @@
   # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
   # 
   # >>code generated with `human`
-  PrintHelp ← (
-    &p tools~ApplyColor tools~Green "Usage:"
-    &p tools~ApplyColor tools~Green "Commands:"
-    &p tools~ApplyColor tools~Green "Options:"
+  PrintUsage ← (
+    App~PrintUsage
+    Options~PrintUsage
+    Subcommands~PrintUsage
   )
 └─╴
 
