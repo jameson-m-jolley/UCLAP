@@ -6,7 +6,7 @@ UCLAP ~ "../main.ua"
 
 {}
 {}
-UCLAP~Arguments ["name"] ["your name"] ["Jane Doe"]
+UCLAP~Arguments {"name" "lastname"} {"your name" "your last name"} {"Jane" "Doe"}
 "an app that says hi"
 "hello"
 UCLAP~App

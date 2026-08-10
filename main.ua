@@ -164,41 +164,75 @@
   ┌─╴Parser ~ App Arguments Options Subcommands
     ┌─╴Arguments
       ~ {name description default}
-      PrintUsage ← (&p JoinTokenized {})
+
+      # GetRows takes
+      # 
+      # 1. `arguments` - an array of argument records
+      # 
+      # returns the array of argument records split into rows of 3 columns
+      # 
+      # >provence:
+      # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
+      #
+      # >>code generated with `human`
+      GetRows =  ⍉⊟,3°Arguments
+
+
+      PrintRow = (&p  ⊂,2 tools~ApplyColor tools~Green ⊂@- ⊂⊙":\t" ∩°□ °⊟,3)
+
+
+      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+      # the Usage/Commands/Options section headers in green
+      # >provence:
+      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+      # 
+      # >>code generated with `human`
+      PrintUsage ← (
+        ⍣(
+      &p tools~ApplyColor tools~Blue "Arguments:" 
+          ⍚PrintRow GetRows
+
+          |◌)
+      )
     └─╴
     ┌─╴Options
       ~ {name description arguments}
+      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+      # the Usage/Commands/Options section headers in green
+      # >provence:
+      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+      # 
+      # >>code generated with `human`
       PrintUsage ← (&p JoinTokenized {})
     └─╴
     ┌─╴Subcommands
       ~ {name description arguments options subcommands}
+      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+      # the Usage/Commands/Options section headers in green
+      # >provence:
+      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+      # 
+      # >>code generated with `human`
       PrintUsage ← (&p JoinTokenized {})
     └─╴
     ┌─╴App
       ~ {name description arguments options subcommands}
+      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+      # the Usage/Commands/Options section headers in green
+      # >provence:
+      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+      # 
+      # >>code generated with `human`
       PrintUsage ← (
-        ⟜∘
-        ⟜∘
-        ⊃
+        ⟜∘⟜∘;⊃
+        &p JoinTokenized {tools~ApplyColor tools~Blue ⊃(⊂ ⊙@: name) description}
         &p JoinTokenized {
-          tools~ApplyColor tools~Blue ⊃ (join dip @: name ) description
-        }
-
-        &p JoinTokenized {
-          tools~ApplyColor
-          tools~Blue
-          "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
-          name
-          ⊙(⊂₃ @[ "ARGS" @])
-          ⊙(⊂₃ @[ "OPTIONS" @])
-          ⊙(⊂₃ @[ "SUBCOMMANDS" @])
-        }
-        ⍥(&p" ")3
+          tools~ApplyColor tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
+          name ⊙(⊂₃ @[ "ARGS" @]) ⊙(⊂₃ @[ "OPTIONS" @]) ⊙(⊂₃ @[ "SUBCOMMANDS" @])
+        };⍥(&p" ")2
+        ⊸arguments
+        Arguments~PrintUsage
       )
-      # TODO switch on empty args, options, subcommands 
-      
-      
-
     └─╴
     # llkWindows takes
     # 1. the map of the lexed tokens
@@ -226,8 +260,6 @@
   # >>code generated with `human`
   PrintUsage ← (
     App~PrintUsage
-    Options~PrintUsage
-    Subcommands~PrintUsage
   )
 └─╴
 
