@@ -5,7 +5,7 @@ UCLAP ~ "../main.ua"
 # (noted by opencode/big-pickle)
 
 {}
-{}
+UCLAP~Options {"rand"} {"makes a random number"} {}
 UCLAP~Arguments {"name" "lastname"} {"your name" "your last name"} {"Jane" "Doe"}
 "an app that says hi"
 "hello"
