@@ -216,15 +216,14 @@
       ~ {name description arguments}
       RowSchema ← {"<SHORT>" "<LONG>" "<DESCRIPTION>"}
 
-      GetShortAndLong ← ≡⊂⊃(⊂@- ↙1)(⊂₂⟜∘@-) name
-
+      GetShortAndLong ← ≡(⊟ ⊃(□⊂@-↙1)(□⍥(⊂@-)2) °□)name
       # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
       # the Usage/Commands/Options section headers in green
       # >provence:
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃⍣(GetShortAndLong) ⍣(&p tools~ApplyColor tools~Blue "Options:" ◌◌◌ °Options)
+      PrintUsage ← ⊃⍣(?GetShortAndLong) ⍣(&p tools~ApplyColor tools~Blue "Options:" ◌◌◌ °Options)
 
     └─╴
     ┌─╴Subcommands
