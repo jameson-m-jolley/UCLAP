@@ -1,5 +1,4 @@
-UCLAP ~ "../main.ua"
-
+UCLAP ~ "../lib.ua"
 ┌─╴test
   ˙⍤ /== UCLAP~Core~Lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z.\\/~*_]+|-?[0-9]+(\\.[0-9]+)?)"
   ˙⍤ /== "--help this is a token -v X" UCLAP~Core~Lexer~JoinTokenized {"--help" "this is a token" "-v" "X"}

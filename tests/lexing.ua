@@ -1,4 +1,4 @@
-UCLAP ~ "../main.ua"
+UCLAP ~ "../lib.ua"
 
 TokenizedTester ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\""}
 MaskedTokens    ← {} # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)

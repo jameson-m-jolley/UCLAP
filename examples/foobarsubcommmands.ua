@@ -1,4 +1,4 @@
-UCLAP ~ "../main.ua"
+UCLAP ~ "../lib.ua"
 
 UCLAP~Subcommands {"foo" "bar"} {"Prints foo" "Prints bar"} {} {} {}
 {}

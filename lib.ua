@@ -1,4 +1,4 @@
-┌─╴tools
+┌─╴Tools
   Red   ← "\u001b[31m"
   Green ← "\u001b[32m"
   Blue  ← "\u001b[34m"
@@ -18,6 +18,19 @@
   # >>code generated with `human`
   ApplyColor ← (˜⊂ Reset ⊂)
 
+  # ParseStandardArrayFmt takes
+  # 
+  # 1. `array` - a string with the from [1,2,...] or {1,2,3,...} or 1,2,3,...
+  # 
+  # returns an array of strings 
+  # >provence:
+  # >>documentation generated with `human`
+  # 
+  # >>code generated with `human`
+  ParseStandardArrayFmt ← (
+    ⟜∘
+    ⊜□⊸≠@, ⨬(∘)(↙-1⊸⧻ ↘1) >1+∩(°¤ ∊ {@| @[ @] @{ @}}) ⊃(↙1)(↘-1⊸⧻)
+  )
 └─╴
 
 ┌─╴Core ~ App Arguments Lexer Options Parser Subcommands
@@ -200,7 +213,7 @@
       # >>documentation generated with `human` 
       # 
       # >>code generated with `human`
-      PrintRow ← (&p ⊂₃ tools~ApplyColor tools~Green °⊟₃)
+      PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
 
       # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
       # the Usage/Commands/Options section headers in green
@@ -208,7 +221,7 @@
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p tools~ApplyColor tools~Blue "Arguments:" °Arguments))
+      PrintUsage ← ⊃(⍣(≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p Tools~ApplyColor Tools~Blue "Arguments:" °Arguments))
 
     └─╴
 
@@ -223,7 +236,9 @@
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃⍣(?GetShortAndLong) ⍣(&p tools~ApplyColor tools~Blue "Options:" ◌◌◌ °Options)
+      PrintUsage ← (
+        ⊃⍣(GetShortAndLong) ⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options)
+      )
 
     └─╴
     ┌─╴Subcommands
@@ -244,7 +259,7 @@
 
       GetInfoRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetInfoRows
 
-      PrintInfoRow ← &p ⊂₂ tools~ApplyColor tools~Green °⊟₂
+      PrintInfoRow ← &p ⊂₂ Tools~ApplyColor Tools~Green °⊟₂
 
       # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
       # the Usage/Commands/Options section headers in green
@@ -252,7 +267,7 @@
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p tools~ApplyColor tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
+      PrintUsage ← ⊃(⍣(≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
     └─╴
     ┌─╴App
       ~ {name description arguments options subcommands}
@@ -264,9 +279,9 @@
       # >>code generated with `human`
       PrintUsage ← (
         ⊃⟜∘⟜∘
-        &p JoinTokenized {tools~ApplyColor tools~Blue ⊃(⊂ ⊙@: name) description}
+        &p JoinTokenized {Tools~ApplyColor Tools~Blue ⊃(⊂ ⊙@: name) description}
         &p JoinTokenized {
-          tools~ApplyColor tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
+          Tools~ApplyColor Tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
           name ⊙(⊂₃ @[ "ARGS" @]) ⊙(⊂₃ @[ "OPTIONS" @]) ⊙(⊂₃ @[ "SUBCOMMANDS" @])
         }
         ⍥(&p" ")2
@@ -274,8 +289,6 @@
         Arguments~PrintUsage
         options
         Options~PrintUsage
-        subcommands
-        Subcommands~PrintUsage
       )
     └─╴
     # llkWindows takes
@@ -287,7 +300,7 @@
     # >>documentation generated with `human`
     # 
     # >>code generated with `humans`
-    LLKWindows ← (map ∩(⧈□2) °map)?
+    LLKWindows ← (map ∩(⧈□2) °map)
 
   └─╴
 
@@ -367,10 +380,10 @@
   # 
   # >>code generated with `human`
   PrintUsage ← (
-    &p tools~ApplyColor tools~Red "UCLAP legacy mode parser"
-    &p tools~ApplyColor tools~Green "Usage:"
+    &p Tools~ApplyColor Tools~Red "UCLAP legacy mode parser"
+    &p Tools~ApplyColor Tools~Green "Usage:"
     &p "-------------------------------------------------"
-    &p ⊂ "takes a list of" ⊂ tools~ApplyColor tools~Red" key=value " "delimited by a space"
+    &p ⊂ "takes a list of" ⊂ Tools~ApplyColor Tools~Red" key=value " "delimited by a space"
     &p "example:"
     &p "    uiua script.ua key=val key2=val2"
   )
