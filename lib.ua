@@ -227,9 +227,13 @@
 
     ┌─╴Options
       ~ {name description arguments}
-      RowSchema ← {"<SHORT>" "<LONG>" "<DESCRIPTION>"}
-
+      RowSchema ← {"<SHORT>" "<LONG>" "<DESCRIPTION>" "<ARGS>"}  
       GetShortAndLong ← ≡(⊟ ⊃(□⊂@-↙1)(□⍥(⊂@-)2) °□)name
+      GetRows ←  ?⍉fill""⊟,4  °⊟⍉  ⊙(pop°Options) byGetShortAndLong
+      GetRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
+      PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
+
+    
       # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
       # the Usage/Commands/Options section headers in green
       # >provence:
@@ -237,9 +241,8 @@
       # 
       # >>code generated with `human`
       PrintUsage ← (
-        ⊃⍣(GetShortAndLong) ⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options)
+        ⊃(≡(PrintRow) GetRowsFilled)(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
       )
-
     └─╴
     ┌─╴Subcommands
       ~ {name description arguments options subcommands}
@@ -288,6 +291,7 @@
         ⊸arguments
         Arguments~PrintUsage
         options
+        ⍥(&p" ")2
         Options~PrintUsage
       )
     └─╴
