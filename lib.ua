@@ -193,25 +193,25 @@
       RowSchema ← {"<NAME>" "<DESCRIPTION>" "<DEFAULT>"}
 
       # GetRowsFilled takes
-      # 
+      #
       # 1. `arguments` - an array of argument records
-      # 
-      # returns the array of argument records split into rows of 3 columns 
+      #
+      # returns the array of argument records split into rows of 3 columns
       # and max padded and with bars added
-      # 
+      #
       # >provence:
       # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
-      # 
+      #
       # >>code generated with `human`
       GetRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
 
-      # PrintRow takes 
-      # 
+      # PrintRow takes
+      #
       # 1. `row` - an argument record
-      # 
+      #
       # >provence:
-      # >>documentation generated with `human` 
-      # 
+      # >>documentation generated with `human`
+      #
       # >>code generated with `human`
       PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
 
@@ -221,7 +221,7 @@
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p Tools~ApplyColor Tools~Blue "Arguments:" °Arguments))
+      PrintUsage ← ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p Tools~ApplyColor Tools~Blue "Arguments:" °Arguments))
 
     └─╴
 
@@ -229,9 +229,9 @@
       ~ {name description arguments}
       RowSchema       ← {"<SHORT>" "<LONG>" "<DESCRIPTION>" "<ARGS>"}
       GetShortAndLong ← ≡(⊟ ⊃(□⊂@-↙1)(□⍥(⊂@-)2) °□)name
-      GetRows         ← ?⍉⬚""⊟₄ °⊟⍉ ⊙(◌°Options) ⊸GetShortAndLong
+      GetRows         ← ⍉⬚"NONE"⊟₄ °⊟⍉ ⊙(◌°Options) ⊸GetShortAndLong
       GetRowsFilled   ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
-      PrintRow        ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
+      PrintRow        ← (&p ⊂₄ Tools~ApplyColor Tools~Green °⊟₄)
 
       # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
       # the Usage/Commands/Options section headers in green
@@ -240,7 +240,7 @@
       # 
       # >>code generated with `human`
       PrintUsage ← (
-        ⊃(≡(PrintRow) GetRowsFilled)(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
+        ⊃(⍣( &p"" ≡(PrintRow) GetRowsFilled))(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
       )
     └─╴
     ┌─╴Subcommands
@@ -269,7 +269,7 @@
       # >>documentation generated with `copilot` and modified by `Jameson Jolley`
       # 
       # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
+      PrintUsage ← ⊃(⍣(&p"" ≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
     └─╴
     ┌─╴App
       ~ {name description arguments options subcommands}
@@ -286,12 +286,15 @@
           Tools~ApplyColor Tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
           name ⊙(⊂₃ @[ "ARGS" @]) ⊙(⊂₃ @[ "OPTIONS" @]) ⊙(⊂₃ @[ "SUBCOMMANDS" @])
         }
-        ⍥(&p" ")2
         ⊸arguments
+        &p ""
         Arguments~PrintUsage
         options
-        ⍥(&p" ")2
+        
         Options~PrintUsage
+        subcommands
+     
+        Subcommands~PrintUsage
       )
     └─╴
     # llkWindows takes
