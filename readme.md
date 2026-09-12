@@ -61,6 +61,11 @@ While the current release is a minimal `key=value` parser and the full CLAP-styl
 DSL is still in progress, the goal is a parser where defining an app is as
 declarative as it is in CLAP.
 
+### used in my own rag memory ststem called METALMIND
+
+  i have a WIP cli tool called METALMIND its open scorse and can be used for continuous RAG operations
+the tool ames to be small and fast while having a small footprint uiua is good for this and in combination with some ffi it makes for a fast small and fun to use engen for AI that makes RAG nice and simple 
+
 ## Project Status
 
 | Module                | Status      | Notes                                                       |

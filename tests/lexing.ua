@@ -8,9 +8,13 @@ UCLAP~Arguments {""} {"prints the date and time"} {""}
 UCLAP~App
 TESTconfg ←
 
-TokenizedTester ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\""}
-MaskedTokens    ← {} # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
-MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING"}
+TokenizedTester       ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\"" "bar"}
+MaskedTokens          ← {} # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
+MatchedTokens         ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING" "LITERAL"}
+MatchedTokensCommands ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING" "COMMAND"}
+
+PreTokenMap  ← map TokenizedTester MatchedTokens
+PostTokenMap ← map TokenizedTester MatchedTokensCommands
 ┌─╴test
   &p "TEST: GetTokenType token"
 
@@ -44,7 +48,7 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
 
   &p "TEST: MapTokens token"
   UCLAP~Tools~Timer~StartTimer "MapTokens"
-  ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~Core~Lexer~MapTokens TokenizedTester
+  ˙⍤ ≍ PreTokenMap UCLAP~Core~Lexer~MapTokens TokenizedTester
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
   &p "TEST: GetTokenTypeMask token"
@@ -56,12 +60,18 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
         UCLAP~Core~Lexer~GetTokenTypeMask "-1"
         UCLAP~Core~Lexer~GetTokenTypeMask "69"
         UCLAP~Core~Lexer~GetTokenTypeMask "\"string --help=help -s --long\""
+        UCLAP~Core~Lexer~GetTokenTypeMask "bar"
   ] UCLAP~Core~Lexer~GetTokenTypeMatrix TokenizedTester
 
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
+  CMDstrings ← (UCLAP~Core~Parser~App~GitCommandStrings TESTconfg)
   UCLAP~Tools~Timer~StartTimer "App~GitCommandStrings"
-  ˙⍤ ≍ {"foo" "bar" "ban" "baz" "boo" "bal"} UCLAP~Core~Parser~App~GitCommandStrings TESTconfg
+  ˙⍤ ≍ {"foo" "bar" "ban" "baz" "boo" "bal"} CMDstrings
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "MatchCommandTokens"
+  ˙⍤ ≍ PostTokenMap UCLAP~Core~Lexer~MatchCommandTokens CMDstrings PreTokenMap
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
 └─╴

@@ -112,10 +112,4 @@ UCLAP ~ "../lib.ua"
   ˙⍤ = 1 UCLAP~Core~Lexer~MatchToken "STRING" "\"this is a string with an escaped backslash \\\\ in it\""
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
-  &p "TEST Insert Command Tokens"
-  UCLAP~Tools~Timer~StartTimer "MatchCommandTokens"
-  UCLAP~Core~Lexer~MatchCommandTokens {}
-  ◌
-  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
-
 └─╴

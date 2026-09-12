@@ -150,7 +150,7 @@
     # >>code generated with human
     # 
     # TODO: make this work
-    MatchCommandTokens ← ∘
+    MatchCommandTokens ←      ⊙◌ map ⊙( ⍜▽ {"COMMAND"}) ⤙∊ ⊙(°map) 
 
     # the match token function takes
     # 
