@@ -1,5 +1,13 @@
 UCLAP ~ "../lib.ua"
 
+UCLAP~Subcommands {"foo" "bar"} {"Prints foo" "Prints bar"} {} {} {UCLAP~Subcommands {"ban" "baz"} {"Prints ban" "Prints baz"} {} {} {UCLAP~Subcommands {"boo" "bal"} {"Prints boo" "Prints bal"} {} {} {}}}
+{}
+UCLAP~Arguments {""} {"prints the date and time"} {""}
+"FOO or BAR"
+"FOOBAR"
+UCLAP~App
+TESTconfg ←
+
 TokenizedTester ← {"--help=help" "-s" "--long" "literal" "-1" "69" "\"string --help=help -s --long\""}
 MaskedTokens    ← {} # TODO: unused binding; remove or wire it up. (noted by opencode/big-pickle)
 MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING"}
@@ -50,6 +58,10 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
         UCLAP~Core~Lexer~GetTokenTypeMask "\"string --help=help -s --long\""
   ] UCLAP~Core~Lexer~GetTokenTypeMatrix TokenizedTester
 
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "App~GitCommandStrings"
+  ˙⍤ ≍ {"foo" "bar" "ban" "baz" "boo" "bal"} UCLAP~Core~Parser~App~GitCommandStrings TESTconfg
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
 └─╴

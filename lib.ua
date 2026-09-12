@@ -38,24 +38,23 @@
     ~ {end start name}
     StartTimer ← Timer 0 ×1000 now
     EndTimer   ← Timer ×1000 now ◌ °Timer
-    DeltaInMs ←   ˜- °Timer 
+    DeltaInMs  ← ˜- °Timer
 
-
-    #RecordTimeDelta takes
+    # RecordTimeDelta takes
     # 
     # 1. name  
     # 2. `DeltaInMs`
-    #
+    # 
     # returns nothing and records the delta in .data/execution_times.csv
     # this will create  .data/execution_times.csv if it dose not exists
-    RecordTimeDelta = (
+    RecordTimeDelta ← (
       &fmd ".data"
       ˜⊂ ˜⊂"\n" ⊂@,∩$"_"DeltaInMs
       ⍣(&fras ".data/execution_times.csv"|"name,time\n")
       ⊂
       &fwa ".data/execution_times.csv"
     )
-    EndTimerAndRecordTimeDelta = (RecordTimeDelta EndTimer)  
+    EndTimerAndRecordTimeDelta ← (RecordTimeDelta EndTimer)
 
   └─╴
 
@@ -225,8 +224,8 @@
     Lex ← (MapTokens Tokenize JoinTokenized ↘1&args)
   └─╴
   ┌─╴Parser ~ App Arguments Options Subcommands
-    TERMIINALS ← {"COMMAND" "OPTION" "POSITIONAL_ARGUMENT" "ARBITRARY_ARGUMENT"}
-    NONTERMIINALS   ← {"ARGUMENTS" "FLAG" "KEY_VALUE" "LONG" "SHORT" "STRING"}
+    TERMIINALS    ← {"COMMAND" "OPTION" "POSITIONAL_ARGUMENT" "ARBITRARY_ARGUMENT"}
+    NONTERMIINALS ← {"ARGUMENTS" "FLAG" "KEY_VALUE" "LONG" "SHORT" "STRING"}
     ┌─╴Arguments
       ~ {name description default}
 
@@ -322,6 +321,8 @@
       # 
       # >>code generated with `human`
       PrintUsage ← ⊃(⍣(&p"" ≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
+
+      GitCommandStrings ← ♭⍢( ⍣(°□°¤subcommands|{})⟜name|¬≍0 ⍣(name|0) )
     └─╴
     ┌─╴App
       ~ {name description arguments options subcommands}
@@ -348,6 +349,8 @@
       
         Subcommands~PrintUsage
       )
+
+      GitCommandStrings ← Subcommands~GitCommandStrings subcommands
 
     └─╴
     # llkWindows takes
