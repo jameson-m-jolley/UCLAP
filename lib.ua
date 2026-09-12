@@ -31,6 +31,34 @@
     ⟜∘
     ⊜□⊸≠@, ⨬(∘)(↙-1⊸⧻ ↘1) >1+∩(°¤ ∊ {@| @[ @] @{ @}}) ⊃(↙1)(↘-1⊸⧻)
   )
+
+  # this is for making flame graphs 
+
+  ┌─╴Timer
+    ~ {end start name}
+    StartTimer ← Timer 0 ×1000 now
+    EndTimer   ← Timer ×1000 now ◌ °Timer
+    DeltaInMs ←   ˜- °Timer 
+
+
+    #RecordTimeDelta takes
+    # 
+    # 1. name  
+    # 2. `DeltaInMs`
+    #
+    # returns nothing and records the delta in .data/execution_times.csv
+    # this will create  .data/execution_times.csv if it dose not exists
+    RecordTimeDelta = (
+      &fmd ".data"
+      ˜⊂ ˜⊂"\n" ⊂@,∩$"_"DeltaInMs
+      ⍣(&fras ".data/execution_times.csv"|"name,time\n")
+      ⊂
+      &fwa ".data/execution_times.csv"
+    )
+    EndTimerAndRecordTimeDelta = (RecordTimeDelta EndTimer)  
+
+  └─╴
+
 └─╴
 
 ┌─╴Core ~ App Arguments Lexer Options Parser Subcommands
@@ -39,12 +67,16 @@
     # the token patterns are regexes that match the token names
     # the patterns are positionally ordered so the some tokens take precedence
     # over others (eg `LONG` takes precedence over `SHORT` )
+    # COMMAND dose not map to any token pattern in the lexer 
+    # instead we match the tokens given in the application config
+    # this makes the grammar ll1 and keeps parsing very fast 
+    # 
     # 
     # >provence:
     # >>documentation generated with `human`
     # 
     # >>code generated with `human`
-    TokenNames ← {"KEY_VALUE" "LONG" "SHORT" "STRING" "LITERAL" "NUMBER"}
+    TokenNames ← {"KEY_VALUE" "LONG" "SHORT" "STRING" "LITERAL" "NUMBER" "COMMAND"}
     # regex patterns for the tokens we want to match
     # 
     # mapped to the token names in `TokenNames` with `TokenMAP`
@@ -52,13 +84,14 @@
     # >>documentation generated with `human`
     # 
     # >>code generated with `human`
+    # 
     # TODO: KEY_VALUE only allows letter values, so `--port=8080` and
     # `--name=Jameson-Smith` tokenize wrong (`--port=8080` -> ["--port" "8080"],
     # `--name=Jameson-Smith` -> ["--name=Jameson" "-S" "mith"]). LITERAL
     # rejects `-`, mangling dashed filenames like `my-file.txt`
     # -> ["my" "-f" "ile.txt"]. Decide dash handling and widen the patterns.
     # (noted by opencode/big-pickle)
-    TokenPatterns ← {"--[a-zA-Z]+=[a-zA-Z]+" "--[a-zA-Z]+" "-[a-zA-Z]" "\"([^\"\\\\]|\\\\.)*\"" "[a-zA-Z.\\/~*_]+" "-?[0-9]+(\\.[0-9]+)?"}
+    TokenPatterns ← {"--[a-zA-Z]+=[a-zA-Z]+" "--[a-zA-Z]+" "-[a-zA-Z]" "\"([^\"\\\\]|\\\\.)*\"" "[a-zA-Z.\\/~*_]+" "-?[0-9]+(\\.[0-9]+)?" "$a"}
     # mapping the token names in `TokenNames` to the regex patterns in `TokenPatterns`
     # >provence:
     # >>documentation generated with `human`
@@ -97,11 +130,28 @@
     # >>documentation generated with opencode (model: laguna-s-2.1-free)
     # 
     # >>code generated with human
+    # 
     # TODO: `⬚""regex` fills non-matching regions with "" and they are
     # dropped, so unmatched characters are silently lost (`bob@` -> ["bob"]).
     # The tokenizer should error on un-tokenizable input instead of dropping it.
     # (noted by opencode/big-pickle)
     Tokenize ← |1 ♭↙1⍉ ⬚""regex TokenizerPattern
+
+    # MatchCommandTokens takes
+    # 
+    # 1. map from `Core~Lexer~MatchToken`
+    # 2. array of `command stings` using the `Core~App~GitCommandStrings`
+    # 
+    # matches command tokens given a array of `command stings` using the `Core~App~GitCommandStrings`  
+    # this is for making the parser do less work and keeps the grammar ll(1) 
+    # returns a map like `Core~Lexer~MatchToken` but with the command tokens matched
+    # >provence:
+    # >>documentation generated with opencode human
+    # 
+    # >>code generated with human
+    # 
+    # TODO: make this work
+    MatchCommandTokens ← ∘
 
     # the match token function takes
     # 
@@ -175,6 +225,8 @@
     Lex ← (MapTokens Tokenize JoinTokenized ↘1&args)
   └─╴
   ┌─╴Parser ~ App Arguments Options Subcommands
+    TERMIINALS ← {"COMMAND" "OPTION" "POSITIONAL_ARGUMENT" "ARBITRARY_ARGUMENT"}
+    NONTERMIINALS   ← {"ARGUMENTS" "FLAG" "KEY_VALUE" "LONG" "SHORT" "STRING"}
     ┌─╴Arguments
       ~ {name description default}
 
@@ -193,25 +245,25 @@
       RowSchema ← {"<NAME>" "<DESCRIPTION>" "<DEFAULT>"}
 
       # GetRowsFilled takes
-      #
+      # 
       # 1. `arguments` - an array of argument records
-      #
+      # 
       # returns the array of argument records split into rows of 3 columns
       # and max padded and with bars added
-      #
+      # 
       # >provence:
       # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
-      #
+      # 
       # >>code generated with `human`
       GetRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
 
       # PrintRow takes
-      #
+      # 
       # 1. `row` - an argument record
-      #
+      # 
       # >provence:
       # >>documentation generated with `human`
-      #
+      # 
       # >>code generated with `human`
       PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
 
@@ -240,7 +292,7 @@
       # 
       # >>code generated with `human`
       PrintUsage ← (
-        ⊃(⍣( &p"" ≡(PrintRow) GetRowsFilled))(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
+        ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
       )
     └─╴
     ┌─╴Subcommands
@@ -290,12 +342,13 @@
         &p ""
         Arguments~PrintUsage
         options
-        
+      
         Options~PrintUsage
         subcommands
-     
+      
         Subcommands~PrintUsage
       )
+
     └─╴
     # llkWindows takes
     # 1. the map of the lexed tokens
@@ -307,6 +360,12 @@
     # 
     # >>code generated with `humans`
     LLKWindows ← (map ∩(⧈□2) °map)
+
+    # for LL(1) Parser (Predictive or Table-Driven Parser)
+
+    ParseTable ← {}
+
+    Parce ← ()
 
   └─╴
 

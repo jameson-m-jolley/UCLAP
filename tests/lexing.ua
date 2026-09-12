@@ -5,18 +5,42 @@ MaskedTokens    ← {} # TODO: unused binding; remove or wire it up. (noted by o
 MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STRING"}
 ┌─╴test
   &p "TEST: GetTokenType token"
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "KEY_VALUE" UCLAP~Core~Lexer~GetTokenType "--help=help"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "SHORT" UCLAP~Core~Lexer~GetTokenType "-s"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "LONG" UCLAP~Core~Lexer~GetTokenType "--long"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "LITERAL" UCLAP~Core~Lexer~GetTokenType "literal"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "NUMBER" UCLAP~Core~Lexer~GetTokenType "-1"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "NUMBER" UCLAP~Core~Lexer~GetTokenType "69"
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
+  UCLAP~Tools~Timer~StartTimer "GetTokenType"
   ˙⍤ ≍ "STRING" UCLAP~Core~Lexer~GetTokenType "\"string --help=help -s --long\""
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
   &p "TEST: MapTokens token"
+  UCLAP~Tools~Timer~StartTimer "MapTokens"
   ˙⍤ ≍ map TokenizedTester MatchedTokens UCLAP~Core~Lexer~MapTokens TokenizedTester
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
   &p "TEST: GetTokenTypeMask token"
+  UCLAP~Tools~Timer~StartTimer "GetTokenTypeMatrix"
   ˙⍤ ≍ [UCLAP~Core~Lexer~GetTokenTypeMask "--help=help"
         UCLAP~Core~Lexer~GetTokenTypeMask "-s"
         UCLAP~Core~Lexer~GetTokenTypeMask "--long"
@@ -25,4 +49,7 @@ MatchedTokens   ← {"KEY_VALUE" "SHORT" "LONG" "LITERAL" "NUMBER" "NUMBER" "STR
         UCLAP~Core~Lexer~GetTokenTypeMask "69"
         UCLAP~Core~Lexer~GetTokenTypeMask "\"string --help=help -s --long\""
   ] UCLAP~Core~Lexer~GetTokenTypeMatrix TokenizedTester
+
+  UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
+
 └─╴

@@ -1,6 +1,6 @@
 UCLAP ~ "../lib.ua"
 ┌─╴test
-  ˙⍤ /== UCLAP~Core~Lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z.\\/~*_]+|-?[0-9]+(\\.[0-9]+)?)"
+  ˙⍤ /== UCLAP~Core~Lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z.\\/~*_]+|-?[0-9]+(\\.[0-9]+)?)|$a"
   ˙⍤ /== "--help this is a token -v X" UCLAP~Core~Lexer~JoinTokenized {"--help" "this is a token" "-v" "X"}
   ˙⍤ ≍ "" UCLAP~Core~Lexer~JoinTokenized {""}
   &p "TEST: old test new Tokenize behavior"
@@ -45,5 +45,8 @@ UCLAP ~ "../lib.ua"
   ˙⍤ = 0 UCLAP~Core~Lexer~MatchToken "STRING" "this is a string with an escaped quote \\\" in it"
   &p "TEST: STRING token with escaped backslash"
   ˙⍤ = 1 UCLAP~Core~Lexer~MatchToken "STRING" "\"this is a string with an escaped backslash \\\\ in it\""
+
+  &p "TEST Insert Command Tokens"
+  UCLAP~Core~Lexer~MatchCommandTokens {}
 
 └─╴
