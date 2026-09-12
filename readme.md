@@ -6,7 +6,9 @@
 UCLAP is a command line argument parser written in [Uiua](https://www.uiua.dev/).
 It lets you define an app's flags, options, arguments, and subcommands once, then
 automatically parse a raw command line into a structured record and print usage
-help similar to [CLAP (Rust)] or the `argparse` module from Python.
+help similar to [CLAP (Rust)] or the `argparse` module from Python. It has zero
+dependencies, and its API and behavior will not change once it stabilizes — other
+than bug fixes.
 
 ## Why Uiua?
 
