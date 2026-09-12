@@ -68,9 +68,9 @@ declarative as it is in CLAP.
 | `core` — Lexer/Parser | 🔧 In Progress | Tokenizer is functional; tokenizer/parser API is expanding |
 
 
-### prefomance(WIP)
+### performance (WIP)
 
-UCLAP has intramented tests, so that we can have this nice graph of the performance of the functions. You can see that this is extreamy fast on the Microsecond scale, most of the ops in this graph are soo fast its not worth thinking about. the slowest at the moment being `GetTokenType` because of the regex matching
+UCLAP has instrumented tests, so that we can have this nice graph of the performance of the functions. You can see that this is extremely fast on the microsecond scale, most of the ops in this graph are so fast it's not worth thinking about. The slowest at the moment being `GetTokenType` because of the regex matching
 
 ![alt text](scripts/times_plot.png)
 
