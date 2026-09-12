@@ -70,7 +70,7 @@ declarative as it is in CLAP.
 
 ### performance (WIP)
 
-UCLAP has instrumented tests, so that we can have this nice graph of the performance of the functions. You can see that this is extremely fast on the microsecond scale, most of the ops in this graph are so fast it's not worth thinking about. The slowest at the moment being `GetTokenType` because of the regex matching
+UCLAP has instrumented tests, so that we can have this nice graph of the performance of the functions. You can see that this is extremely fast on the microsecond scale, most of the ops in this graph are so fast it's not worth thinking about. The slowest at the moment being `TokenizerPattern` at around 11µs (median), which is built once per run. `GetTokenType`'s tall spikes are a per-run warm-up outlier, not per-call regex cost; its steady-state median is around 5.6µs. Note that these timings wrap each test assertion, so they include the `˙⍤` match/compare overhead and are not representative of real-world usage — treat them as an upper bound rather than a benchmark.
 
 ![alt text](scripts/times_plot.png)
 
