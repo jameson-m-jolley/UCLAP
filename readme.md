@@ -67,6 +67,10 @@ declarative as it is in CLAP.
 | `legacy`              | ✅ Working   | Basic `key=value` parser, functional but minimal             |
 | `core` — Lexer/Parser | 🔧 In Progress | Tokenizer is functional; tokenizer/parser API is expanding |
 
+
+### prefomance(WIP)
+![alt text](scripts/times_plot.png)
+
 ## Getting Started
 
 Add this to your entry point (e.g. `main.ua`):
