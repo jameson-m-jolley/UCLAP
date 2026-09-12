@@ -69,6 +69,9 @@ declarative as it is in CLAP.
 
 
 ### prefomance(WIP)
+
+UCLAP has intramented tests, so that we can have this nice graph of the performance of the functions. You can see that this is extreamy fast on the Microsecond scale, most of the ops in this graph are soo fast its not worth thinking about. the slowest at the moment being `GetTokenType` because of the regex matching
+
 ![alt text](scripts/times_plot.png)
 
 ## Getting Started
@@ -94,30 +97,37 @@ and a description that UCLAP uses to build the help output.
 ```uiua
 UCLAP ~ "main.ua"
 
-UCLAP~app "hello world" {
-  UCLAP~command "name"
-  {
-    UCLAP~argument "name" "the name that is printed in the msg"
-  }
-  {}
-  "stakes one argument and prints a msg"
-}
+UCLAP~Subcommands {"foo" "bar"} {"Prints foo" "Prints bar"} {} {} {}
+{}
+UCLAP~Arguments {""} {"prints the date and time"} {""}
+"FOO or BAR"
+"FOOBAR"
+UCLAP~App
+
+UCLAP~Core~PrintUsage
 ```
 
-The `~app`, `~command`, `~option`, and `~argument` bindings share a common
-definition shape:
+```bash
+[jameson@archlinux examples]$ uiua foobarsubcommmands.ua 
+FOOBAR: FOO or BAR
+Usage: EXE[FOOBAR] [ARGS] [OPTIONS] [SUBCOMMANDS]
 
-```uiua
-~app      {name description options arguments commands}
-~command  {name description options arguments commands}
-~option   {name description}
-~argument {name description}
+Arguments:
+|<NAME>                  |<DESCRIPTION>           |<DEFAULT>               
+|                        |prints the date and time|                        
+
+Subcommands:
+|<NAME>       |<DESCRIPTION>
+|foo          |Prints foo   
+|bar          |Prints bar   
 ```
+
 
 ## Legacy Mode
 
 The `legacy` module is a minimal `key=value` parser. It splits every argument
 after the script name on `=` into key/value pairs.
+this is very good fore leatcode 
 
 ```
 Usage
@@ -163,8 +173,9 @@ tagged as a `(token-name, value)` pair — for example `("--help" "LONG")`,
 | `STRING`      | a double-quoted string        | `"hello world"`          |
 | `LITERAL`     | a bare word                   | `filename`               |
 | `NUMBER`      | a signed number               | `-1`, `69`               |
+| `COMMAND`     | matches the commands  in the config| `foo`, `bar`               |
 
-### Tokenizer
+#### Tokenizer
 
 `UCLAP~core~lexer~TokenizerPattern` is the compiled regex used to split a
 command line into tokens. `UCLAP~core~lexer~Tokenize` applies it:
@@ -173,25 +184,7 @@ command line into tokens. `UCLAP~core~lexer~Tokenize` applies it:
 ? UCLAP~core~lexer~Tokenize "--help this is a token -v X"
 ```
 
-### Matching a token
-
-`UCLAP~core~lexer~MatchToken` checks whether a token is of a given type. It
-returns `1` for a match and `0` for a miss:
-
-```uiua
-UCLAP~core~lexer~MatchToken "KEY_VALUE" "--Key=Val"   # 1
-UCLAP~core~lexer~MatchToken "KEY_VALUE" "bob"         # 0
-UCLAP~core~lexer~MatchToken "LONG"      "--bob"       # 1
-UCLAP~core~lexer~MatchToken "LONG"      "-bob"        # 0
-UCLAP~core~lexer~MatchToken "LONG"      "--Key=Val"   # 0
-UCLAP~core~lexer~MatchToken "SHORT"     "-b"          # 1
-UCLAP~core~lexer~MatchToken "SHORT"     "-bb"         # 0
-UCLAP~core~lexer~MatchToken "SHORT"     "--bb"        # 0
-UCLAP~core~lexer~MatchToken "LITERAL" "token"  # 1
-UCLAP~core~lexer~MatchToken "NUMBER" "-5"                # 1
-```
-
-## Running the tests
+# Running the tests
 
 > **TODO:** the command below is wrong — `uiua run` does not execute the
 > `┌─╴test` blocks (it prints nothing). Use `uiua test tests/tokenize.ua`
@@ -201,7 +194,7 @@ UCLAP~core~lexer~MatchToken "NUMBER" "-5"                # 1
 The tokenizer tests are in `tests/tokenize.ua`:
 
 ```bash
-uiua run tests/tokenize.ua
+uiua tests/tokenize.ua
 ```
 
 Each `˙⍤` assertion prints whether the check passed.
@@ -215,10 +208,10 @@ Each `˙⍤` assertion prints whether the check passed.
 A runnable example app lives in `examples/helloworld.ua`:
 
 ```bash
-uiua run examples/helloworld.ua
+uiua examples/helloworld.ua
 ```
 
-## Contributing
+# Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
