@@ -4,10 +4,10 @@ UCLAP ~ "../lib.ua"
   ˙⍤ /== UCLAP~Core~Lexer~TokenizerPattern "(--[a-zA-Z]+=[a-zA-Z]+|--[a-zA-Z]+|-[a-zA-Z]|\"([^\"\\\\]|\\\\.)*\"|[a-zA-Z.\\/~*_]+|-?[0-9]+(\\.[0-9]+)?)|$a"
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
   UCLAP~Tools~Timer~StartTimer "JoinTokenized"
-  ˙⍤ /== "--help this is a token -v X" UCLAP~Core~Lexer~JoinTokenized {"--help" "this is a token" "-v" "X"}
+  ˙⍤ /== "--help this is a token -v X" UCLAP~Core~JoinTokenized {"--help" "this is a token" "-v" "X"}
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
   UCLAP~Tools~Timer~StartTimer "JoinTokenized"
-  ˙⍤ ≍ "" UCLAP~Core~Lexer~JoinTokenized {""}
+  ˙⍤ ≍ "" UCLAP~Core~JoinTokenized {""}
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
   &p "TEST: old test new Tokenize behavior"
   UCLAP~Tools~Timer~StartTimer "Tokenize"

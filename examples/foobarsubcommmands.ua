@@ -7,4 +7,7 @@ UCLAP~Arguments {""} {"prints the date and time"} {""}
 "FOOBAR"
 UCLAP~App
 
-UCLAP~Core~PrintUsage
+UCLAP~Core~Lex
+
+UCLAP~Core~Parser~ParseTable
+#UCLAP~Core~PrintUsage

@@ -65,7 +65,7 @@ PostTokenMap ← map TokenizedTester MatchedTokensCommands
 
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
 
-  CMDstrings ← (UCLAP~Core~Parser~App~GitCommandStrings TESTconfg)
+  CMDstrings ← (UCLAP~Core~App~GitCommandStrings TESTconfg)
   UCLAP~Tools~Timer~StartTimer "App~GitCommandStrings"
   ˙⍤ ≍ {"foo" "bar" "ban" "baz" "boo" "bal"} CMDstrings
   UCLAP~Tools~Timer~EndTimerAndRecordTimeDelta
