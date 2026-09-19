@@ -61,148 +61,147 @@
 └─╴
 
 ┌─╴Core ~ App Arguments Lexer Options Parser Subcommands
+  # JoinTokenized takes
+  # 
+  # 1. `tokens` - an array of string tokens
+  # 
+  # joins the tokens into a single space-separated string so the regex
+  # tokenizer can split them back into the correct tagged tokens
+  # 
+  # >provence:
+  # >>documentation generated with opencode (model: laguna-s-2.1-free)
+  # 
+  # >>code generated with human
+  JoinTokenized ← |1 ⍣(°□ /(□⊂ ˜⊂@ ∩°□))@ 
+  ┌─╴Arguments
+    ~ {name description default}
 
-    # JoinTokenized takes
+    # GetRows takes
     # 
-    # 1. `tokens` - an array of string tokens
+    # 1. `arguments` - an array of argument records
     # 
-    # joins the tokens into a single space-separated string so the regex
-    # tokenizer can split them back into the correct tagged tokens
+    # returns the array of argument records split into rows of 3 columns
     # 
     # >provence:
-    # >>documentation generated with opencode (model: laguna-s-2.1-free)
+    # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
     # 
-    # >>code generated with human
-    JoinTokenized ← |1 ⍣(°□ /(□⊂ ˜⊂@ ∩°□))@ 
-    ┌─╴Arguments
-      ~ {name description default}
+    # >>code generated with `human`
+    GetRows ← ⍉⊟₃°Arguments
 
-      # GetRows takes
-      # 
-      # 1. `arguments` - an array of argument records
-      # 
-      # returns the array of argument records split into rows of 3 columns
-      # 
-      # >provence:
-      # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
-      # 
-      # >>code generated with `human`
-      GetRows ← ⍉⊟₃°Arguments
+    RowSchema ← {"<NAME>" "<DESCRIPTION>" "<DEFAULT>"}
 
-      RowSchema ← {"<NAME>" "<DESCRIPTION>" "<DEFAULT>"}
+    # GetRowsFilled takes
+    # 
+    # 1. `arguments` - an array of argument records
+    # 
+    # returns the array of argument records split into rows of 3 columns
+    # and max padded and with bars added
+    # 
+    # >provence:
+    # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
+    # 
+    # >>code generated with `human`
+    GetRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
 
-      # GetRowsFilled takes
-      # 
-      # 1. `arguments` - an array of argument records
-      # 
-      # returns the array of argument records split into rows of 3 columns
-      # and max padded and with bars added
-      # 
-      # >provence:
-      # >>documentation generated with `opencode (model: laguna-s-2.1-free)`
-      # 
-      # >>code generated with `human`
-      GetRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
+    # PrintRow takes
+    # 
+    # 1. `row` - an argument record
+    # 
+    # >provence:
+    # >>documentation generated with `human`
+    # 
+    # >>code generated with `human`
+    PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
 
-      # PrintRow takes
-      # 
-      # 1. `row` - an argument record
-      # 
-      # >provence:
-      # >>documentation generated with `human`
-      # 
-      # >>code generated with `human`
-      PrintRow ← (&p ⊂₃ Tools~ApplyColor Tools~Green °⊟₃)
+    # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+    # the Usage/Commands/Options section headers in green
+    # >provence:
+    # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+    # 
+    # >>code generated with `human`
+    PrintUsage ← ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p Tools~ApplyColor Tools~Blue "Arguments:" °Arguments))
 
-      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
-      # the Usage/Commands/Options section headers in green
-      # >provence:
-      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
-      # 
-      # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(◌◌◌&p Tools~ApplyColor Tools~Blue "Arguments:" °Arguments))
+  └─╴
 
-    └─╴
+  ┌─╴Options
+    ~ {name description arguments}
+    RowSchema       ← {"<SHORT>" "<LONG>" "<DESCRIPTION>" "<ARGS>"}
+    GetShortAndLong ← ≡(⊟ ⊃(□⊂@-↙1)(□⍥(⊂@-)2) °□)name
+    GetRows         ← ⍉⬚"NONE"⊟₄ °⊟⍉ ⊙(◌°Options) ⊸GetShortAndLong
+    GetRowsFilled   ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
+    PrintRow        ← (&p ⊂₄ Tools~ApplyColor Tools~Green °⊟₄)
 
-    ┌─╴Options
-      ~ {name description arguments}
-      RowSchema       ← {"<SHORT>" "<LONG>" "<DESCRIPTION>" "<ARGS>"}
-      GetShortAndLong ← ≡(⊟ ⊃(□⊂@-↙1)(□⍥(⊂@-)2) °□)name
-      GetRows         ← ⍉⬚"NONE"⊟₄ °⊟⍉ ⊙(◌°Options) ⊸GetShortAndLong
-      GetRowsFilled   ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetRows
-      PrintRow        ← (&p ⊂₄ Tools~ApplyColor Tools~Green °⊟₄)
+    # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+    # the Usage/Commands/Options section headers in green
+    # >provence:
+    # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+    # 
+    # >>code generated with `human`
+    PrintUsage ← (
+      ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
+    )
+  └─╴
+  ┌─╴Subcommands
+    ~ {name description arguments options subcommands}
+    RowSchema ← {"<NAME>" "<DESCRIPTION>"}
 
-      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
-      # the Usage/Commands/Options section headers in green
-      # >provence:
-      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
-      # 
-      # >>code generated with `human`
-      PrintUsage ← (
-        ⊃(⍣(&p"" ≡(PrintRow) GetRowsFilled))(⍣(&p Tools~ApplyColor Tools~Blue "Options:" ◌◌◌ °Options))
-      )
-    └─╴
-    ┌─╴Subcommands
-      ~ {name description arguments options subcommands}
-      RowSchema ← {"<NAME>" "<DESCRIPTION>"}
+    # GetRows takes
+    # 
+    # 1. `Subcommands` - a subcommand record
+    # 
+    # returns the array of subcommand records 
+    # 
+    # >provence:
+    # >>documentation generated with `human`
+    # 
+    # >>code generated with `human`
+    GetInfoRows ← ⍉⊟⊃name description
 
-      # GetRows takes
-      # 
-      # 1. `Subcommands` - a subcommand record
-      # 
-      # returns the array of subcommand records 
-      # 
-      # >provence:
-      # >>documentation generated with `human`
-      # 
-      # >>code generated with `human`
-      GetInfoRows ← ⍉⊟⊃name description
+    GetInfoRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetInfoRows
 
-      GetInfoRowsFilled ← ⬚@ ≡(⬚@ ≡(⊂@| °□))⊂ RowSchema GetInfoRows
+    PrintInfoRow ← &p ⊂₂ Tools~ApplyColor Tools~Green °⊟₂
 
-      PrintInfoRow ← &p ⊂₂ Tools~ApplyColor Tools~Green °⊟₂
+    # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+    # the Usage/Commands/Options section headers in green
+    # >provence:
+    # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+    # 
+    # >>code generated with `human`
+    PrintUsage ← ⊃(⍣(&p"" ≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
 
-      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
-      # the Usage/Commands/Options section headers in green
-      # >provence:
-      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
-      # 
-      # >>code generated with `human`
-      PrintUsage ← ⊃(⍣(&p"" ≡PrintInfoRow GetInfoRowsFilled)) (⍣(&p Tools~ApplyColor Tools~Blue "Subcommands:" ◌◌◌◌◌ °Subcommands))
+    # TODO: DOC
+    GitCommandStrings ← ♭⍢(⍣(°□°¤subcommands|{})⟜name|¬≍0 ⍣(name|0))
 
-      #TODO: DOC
-      GitCommandStrings ← ♭⍢( ⍣(°□°¤subcommands|{})⟜name|¬≍0 ⍣(name|0))
+  └─╴
+  ┌─╴App ~ GitCommandStrings
+    ~ {name description arguments options subcommands}
+    # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
+    # the Usage/Commands/Options section headers in green
+    # >provence:
+    # >>documentation generated with `copilot` and modified by `Jameson Jolley`
+    # 
+    # >>code generated with `human`
+    PrintUsage ← (
+      ⊃⟜∘⟜∘
+      &p JoinTokenized {Tools~ApplyColor Tools~Blue ⊃(⊂ ⊙@: name) description}
+      &p JoinTokenized {
+        Tools~ApplyColor Tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
+        name ⊙(⊂₃ @[ "ARGS" @]) ⊙(⊂₃ @[ "OPTIONS" @]) ⊙(⊂₃ @[ "SUBCOMMANDS" @])
+      }
+      ⊸arguments
+      &p ""
+      Arguments~PrintUsage
+      options
+    
+      Options~PrintUsage
+      subcommands
+    
+      Subcommands~PrintUsage
+    )
 
-    └─╴
-    ┌─╴App ~ GitCommandStrings
-      ~ {name description arguments options subcommands}
-      # PrintUsage takes no arguments and prints the CLAP-style help scaffold:
-      # the Usage/Commands/Options section headers in green
-      # >provence:
-      # >>documentation generated with `copilot` and modified by `Jameson Jolley`
-      # 
-      # >>code generated with `human`
-      PrintUsage ← (
-        ⊃⟜∘⟜∘
-        &p JoinTokenized {Tools~ApplyColor Tools~Blue ⊃(⊂ ⊙@: name) description}
-        &p JoinTokenized {
-          Tools~ApplyColor Tools~Blue "Usage:" ⊂ "EXE" ⊂ @[ ⊂ ⊙@]
-          name ⊙(⊂₃ @[ "ARGS" @]) ⊙(⊂₃ @[ "OPTIONS" @]) ⊙(⊂₃ @[ "SUBCOMMANDS" @])
-        }
-        ⊸arguments
-        &p ""
-        Arguments~PrintUsage
-        options
-      
-        Options~PrintUsage
-        subcommands
-      
-        Subcommands~PrintUsage
-      )
+    GitCommandStrings ← Subcommands~GitCommandStrings subcommands
 
-      GitCommandStrings ← Subcommands~GitCommandStrings subcommands
-
-    └─╴
+  └─╴
 
   ┌─╴Lexer ~ Lex
     # token names use screaming snake case eg `KEY_VALUE`
@@ -280,7 +279,7 @@
     # >>code generated with human
     # 
     # TODO: make this work 
-    MatchCommandTokens ←      ⊙◌map⊙( ⍜▽(⍥(□"COMMAND")⊸⧻))⤙∊⊙°map 
+    MatchCommandTokens ← ⊙◌map⊙(⍜▽(⍥(□"COMMAND")⊸⧻))⤙∊⊙°map
 
     # the match token function takes
     # 
@@ -342,14 +341,13 @@
     # 
     # >>code generated with `human`
     MapTokens ← |1 (˜map⍣(°¤)[]⍉≡(˜▽TokenNames)GetTokenTypeMatrix⟜∘)
-    
-    
-    #see Lex
-    PrePassLex = (MapTokens Tokenize JoinTokenized ↘1&args)
+
+    # see Lex
+    PrePassLex ← (MapTokens Tokenize JoinTokenized ↘1&args)
     # Lex takes 1 arguments and is the entry point of the lexer.
     # 
-    #1. APP config
-    #
+    # 1. APP config
+    # 
     # currently a placeholder; future work will drive tokenization and
     # tagging here into a tagged token record
     # 
@@ -359,14 +357,12 @@
     # >>code generated with human
     Lex ← ˜MatchCommandTokens PrePassLex App~GitCommandStrings
 
-    
   └─╴
 
-  ┌─╴Parser 
+  ┌─╴Parser
+    ~ {Top Lookahead Tree}
     TERMIINALS    ← {"COMMAND" "OPTION" "POSITIONAL_ARGUMENT" "ARBITRARY_ARGUMENT" "$"}
     NONTERMIINALS ← {"START" "ARGUMENTS" "FLAG" "KEY_VALUE" "LONG" "SHORT" "STRING"}
-
-
 
     # llkWindows takes
     # 1. the map of the lexed tokens
@@ -379,11 +375,75 @@
     # >>code generated with `humans`
     LLKWindows ← (map ∩(⧈□2) °map)
 
+    ┌─╴Productions
+      ┌─╴COMMAND
+        START     ← (⍤ "no production for COMMAND -> START" 0)
+        ARGUMENTS ← (⍤ "no production for COMMAND -> ARGUMENTS" 0)
+        FLAG      ← (⍤ "no production for COMMAND -> FLAG" 0)
+        KEYVALUE  ← (⍤ "no production for COMMAND -> KEYVALUE" 0)
+        LONG      ← (⍤ "no production for COMMAND -> LONG" 0)
+        SHORT     ← (⍤ "no production for COMMAND -> SHORT" 0)
+        STRING    ← (⍤ "no production for COMMAND -> STRING" 0)
+        TABLE     ← ⨬(START|ARGUMENTS|FLAG|KEYVALUE|LONG|SHORT|STRING)
+      └─╴
+      ┌─╴OPTION
+        START     ← (⍤ "no production for OPTION -> START" 0)
+        ARGUMENTS ← (⍤ "no production for OPTION -> ARGUMENTS" 0)
+        FLAG      ← (⍤ "no production for OPTION -> FLAG" 0)
+        KEYVALUE  ← (⍤ "no production for OPTION -> KEYVALUE" 0)
+        LONG      ← (⍤ "no production for OPTION -> LONG" 0)
+        SHORT     ← (⍤ "no production for OPTION -> SHORT" 0)
+        STRING    ← (⍤ "no production for OPTION -> STRING" 0)
+        TABLE     ← ⨬(START|ARGUMENTS|FLAG|KEYVALUE|LONG|SHORT|STRING)
+      └─╴
+      ┌─╴POSITIONALARGUMENT
+        START     ← (⍤ "no production for POSITIONAL_ARGUMENT -> START" 0)
+        ARGUMENTS ← (⍤ "no production for POSITIONAL_ARGUMENT -> ARGUMENTS" 0)
+        FLAG      ← (⍤ "no production for POSITIONAL_ARGUMENT -> FLAG" 0)
+        KEYVALUE  ← (⍤ "no production for POSITIONAL_ARGUMENT -> KEYVALUE" 0)
+        LONG      ← (⍤ "no production for POSITIONAL_ARGUMENT -> LONG" 0)
+        SHORT     ← (⍤ "no production for POSITIONAL_ARGUMENT -> SHORT" 0)
+        STRING    ← (⍤ "no production for POSITIONAL_ARGUMENT -> STRING" 0)
+        TABLE     ← ⨬(START|ARGUMENTS|FLAG|KEYVALUE|LONG|SHORT|STRING)
+      └─╴
+      ┌─╴ARBITRARYARGUMENT
+        START     ← (⍤ "no production for ARBITRARY_ARGUMENT -> START" 0)
+        ARGUMENTS ← (⍤ "no production for ARBITRARY_ARGUMENT -> ARGUMENTS" 0)
+        FLAG      ← (⍤ "no production for ARBITRARY_ARGUMENT -> FLAG" 0)
+        KEYVALUE  ← (⍤ "no production for ARBITRARY_ARGUMENT -> KEYVALUE" 0)
+        LONG      ← (⍤ "no production for ARBITRARY_ARGUMENT -> LONG" 0)
+        SHORT     ← (⍤ "no production for ARBITRARY_ARGUMENT -> SHORT" 0)
+        STRING    ← (⍤ "no production for ARBITRARY_ARGUMENT -> STRING" 0)
+        TABLE     ← ⨬(START|ARGUMENTS|FLAG|KEYVALUE|LONG|SHORT|STRING)
+      └─╴
+      ┌─╴End
+        START     ← (⍤ "no production for End -> START" 0)
+        ARGUMENTS ← (⍤ "no production for End -> ARGUMENTS" 0)
+        FLAG      ← (⍤ "no production for End -> FLAG" 0)
+        KEYVALUE  ← (⍤ "no production for End -> KEYVALUE" 0)
+        LONG      ← (⍤ "no production for End -> LONG" 0)
+        SHORT     ← (⍤ "no production for End -> SHORT" 0)
+        STRING    ← (⍤ "no production for End -> STRING" 0)
+        TABLE     ← ⨬(START|ARGUMENTS|FLAG|KEYVALUE|LONG|SHORT|STRING)
+      └─╴
+
+      # TABLE takes
+      # 
+      # 1. a number that represents the index of a `TERMIINAL` example the index of `TERMIINALS` at the top of the modual
+      # 2. a number that reprenents the index of a `NONTERMIINAL` example the index of NONTERMIINALS at the top of the modual
+      # 
+      # returns a state monad that holds the state of the parser 
+      # >provence:
+      # >>documentation generated with `human`
+      # 
+      # >>code generated with `human`
+      TABLE ← ⨬(COMMAND~TABLE|OPTION~TABLE|POSITIONALARGUMENT~TABLE|ARBITRARYARGUMENT~TABLE|End~TABLE)
+
+    └─╴
+
     # for LL(1) Parser (Predictive or Table-Driven Parser)
-
-
-    ErrorStates = { }
-    ParseTable ← {⊞⊂ TERMIINALS NONTERMIINALS}
+    ErrorStates ← {}
+    ParseTable  ← {}
 
     Parce ← ()
 
