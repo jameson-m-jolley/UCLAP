@@ -430,7 +430,7 @@
       # TABLE takes
       # 
       # 1. a number that represents the index of a `TERMIINAL` example the index of `TERMIINALS` at the top of the modual
-      # 2. a number that reprenents the index of a `NONTERMIINAL` example the index of NONTERMIINALS at the top of the modual
+      # 2. a number that reprenents the index of a `NONTERMIINAL` example the index of `NONTERMIINALS` at the top of the modual
       # 
       # returns a state monad that holds the state of the parser 
       # >provence:
